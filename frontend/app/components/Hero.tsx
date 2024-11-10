@@ -20,7 +20,7 @@ import React from "react";
 import { useEffect } from "react";
 
 const Hero = () => {
-  const url = process.env.NEXT_PUBLIC_url;
+  const url = 'http://localhost:8000/';
 
   useEffect(() => {
     const checkBackend = async () => {

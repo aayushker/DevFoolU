@@ -13,12 +13,11 @@ const Project = () => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsLoading(true);
-    // Simulating API call
     if (!url) {
       return;
     }
     const formData = new FormData();
-    formData.append("url", url);
+    formData.append("projectURL", url); 
     try {
       const response = await axios.post(`${backendURL}/api/project/`, formData);
     } catch (error) {
@@ -26,7 +25,6 @@ const Project = () => {
     }
     setTimeout(() => {
       setIsLoading(false);
-      // Redirect to results page (implement actual navigation logic)
       console.log("'Navigating to results page'");
     }, 3000);
   };
