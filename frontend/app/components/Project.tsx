@@ -1,5 +1,6 @@
 "use client";
 import { useState } from "react";
+import { useRouter } from "next/router";
 import { Button } from "@/app/components/ui/button";
 import { Input } from "@/app/components/ui/input";
 import { Loader2 } from "lucide-react";
@@ -7,8 +8,9 @@ import axios from "axios";
 
 const Project = () => {
   const backendURL = "http://localhost:8000";
-  const [url, setUrl] = useState("demo.devfolio.co");
+  const [url, setUrl] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+  const router = useRouter();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -20,13 +22,18 @@ const Project = () => {
     formData.append("projectURL", url); 
     try {
       const response = await axios.post(`${backendURL}/api/project/`, formData);
+      if (response.data.status === 'success') {
+        router.push({
+          pathname: '/result',
+          query: { data: JSON.stringify(response.data.data) }
+        });
+      } else {
+        console.error(response.data.message);
+      }
     } catch (error) {
       console.error(error);
     }
-    setTimeout(() => {
-      setIsLoading(false);
-      console.log("'Navigating to results page'");
-    }, 3000);
+    setIsLoading(false);
   };
 
   return (
