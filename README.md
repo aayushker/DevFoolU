@@ -9,7 +9,6 @@ Devfoolio is an automated plagiarism detection tool designed to maintain the int
 
 ## Table of Contents
 
-  - [📜 **Purpose**](#-purpose)
   - [🔥 **Features**](#-features)
   - [🖥️ **Technologies Used**](#️-technologies-used)
   - [🚀 **Getting Started**](#-getting-started)
@@ -18,12 +17,6 @@ Devfoolio is an automated plagiarism detection tool designed to maintain the int
   - [📄 **License**](#-license)
   - [🤝 **Acknowledgments**](#-acknowledgments)
     
-<br />
-
-## 📜 **Purpose**
-
-The primary purpose of this project is to demonstrate how steganography can be used to encode and decode secret messages within images. The application supports all image formats but due to limitation of lossy image format like JPEG and JPG all image formats are converted to PNG format to ensure that no data is lost during encoding, making it ideal for confidential communications.
-
 <br />
 
 ## 🔥 **Features**
