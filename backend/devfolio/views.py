@@ -18,8 +18,9 @@ class Devfolio(APIView):
             try:
                 scrapedData = scrapper(projectURL)
                 cruxedData = crux(scrapedData)
-                result = vectorization(cruxedData)
-                print(result)
+                ps_crux_words = ["Self-Driving Software", "Android", "CAN BUS", "ADAS", "ACC", "FCW", "AEB", "LKA", "Neural Network", 
+                                 "Cost-Effective", "Accessible", "Beta Testing", "Autonomous Driving", "Optimisation", "Mobile GPU"]
+                result = vectorization(ps_crux_words)
                 return Response({'status': 'success', 'data': result}, status=200)
             except Exception as e:
                 import traceback
