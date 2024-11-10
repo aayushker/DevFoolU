@@ -26,7 +26,7 @@ def calculate_similarity(crux1, crux2):
     similarity_percentage = cosine_sim[0][1] * 100  # Convert to percentage
     return similarity_percentage
 
-def process_projects(ps_crux_words, csv_file_path="devfolio_projects.csv"):
+def process_projects(ps_crux_words, csv_file_path="/home/gopatron/Documents/WebD Codes/HackCBS/backend/process/devfolio_projects.csv"):
     # Load CSV file
     df = pd.read_csv(csv_file_path)
 
