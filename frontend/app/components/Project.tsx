@@ -7,7 +7,7 @@ import { Loader2 } from "lucide-react";
 import axios from "axios";
 
 const Project = () => {
-  const backendURL = "http://localhost:8000";
+  const backendURL = process.env.NEXT_PUBLIC_URL;
   const [url, setUrl] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();

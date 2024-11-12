@@ -20,12 +20,12 @@ import React from "react";
 import { useEffect } from "react";
 
 const Hero = () => {
-  const url = 'http://localhost:8000/';
+  const backendURL = process.env.NEXT_PUBLIC_URL;
 
   useEffect(() => {
     const checkBackend = async () => {
       try {
-        const response = await axios.get(`${url}`);
+        const response = await axios.get(`${backendURL}`);
         if (response.status === 200) {
           toast.success("Backend is now active!", {
             position: "bottom-right",

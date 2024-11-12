@@ -19,12 +19,10 @@ const Result = () => {
 
   let matchedProjects: Array<any> = [];
 
-  // Initialize matchedProjects based on the query parameter
   if (typeof data === 'string') {
     try {
       const parsedData = JSON.parse(data);
 
-      // Check if the parsedData is an object with the expected keys
       if (parsedData && parsedData.top_5_similar_projects) {
         matchedProjects = parsedData.top_5_similar_projects;
       } else {
@@ -42,7 +40,7 @@ const Result = () => {
           <AlertTriangle className="h-4 w-4" />
           <AlertTitle>High Similarity Detected</AlertTitle>
           <AlertDescription>
-            {matchedProjects[0]['Similarity with PS (%)'] > 80 && (
+            {matchedProjects[0]['Similarity with PS (%)'].toFixed(2) > 80 && (
               `${matchedProjects[0]['Similarity with PS (%)']}` + "% similarity detected with an existing project!"
             )}
           </AlertDescription>
