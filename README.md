@@ -9,7 +9,6 @@ Devfoolio is an automated plagiarism detection tool designed to maintain the int
 
 ## Table of Contents
 
-  - [📜 **Purpose**](#-purpose)
   - [🔥 **Features**](#-features)
   - [🖥️ **Technologies Used**](#️-technologies-used)
   - [🚀 **Getting Started**](#-getting-started)
@@ -18,12 +17,6 @@ Devfoolio is an automated plagiarism detection tool designed to maintain the int
   - [📄 **License**](#-license)
   - [🤝 **Acknowledgments**](#-acknowledgments)
     
-<br />
-
-## 📜 **Purpose**
-
-The primary purpose of this project is to demonstrate how steganography can be used to encode and decode secret messages within images. The application supports all image formats but due to limitation of lossy image format like JPEG and JPG all image formats are converted to PNG format to ensure that no data is lost during encoding, making it ideal for confidential communications.
-
 <br />
 
 ## 🔥 **Features**
@@ -160,6 +153,10 @@ This project is licensed under the GNU General Public License. See the `LICENSE`
 
 
 ## 🤝 **Acknowledgments**
-Thanks to the HackCBS team for organizing this hackathon and providing a platform for innovation and collaboration. We also appreciate the support from Devfolio for their guidance and resources throughout the event.
-This project was developed as part of the HackCBS hackathon organized by Devfolio. We would like to thank the organizers for providing us with the opportunity to work on this project and showcase our skills. We also appreciate the support from the mentors and judges who helped us improve our project and provided valuable feedback. We look forward to participating in more such events in the future and contributing to the tech community.
-Team Members: @aayushker  @hiCXK @Sarvagyapradhan
+This project built under HackCBS 7.0 hackathon. Thanks to the HackCBS team for organizing this hackathon and providing a platform for innovation and collaboration. We also appreciate the support from MLH for their guidance and resources throughout the event.
+<br />
+We would like to thank the organizers for providing us with the opportunity to work on this project and showcase our skills. We also appreciate the support from the mentors and judges who helped us improve our project and provided valuable feedback.
+<br />
+Team Hacker X Coders
+<br />
+[Aayushker](https://github.com/aayushker) [Chaitanya](https://github.com/hiCXK) [Sarvagya](https://github.com/Sarvagyapradhan)
