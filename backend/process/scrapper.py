@@ -2,25 +2,20 @@ from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
-import time
 
 def scrapper(projectURL):
-    # Initialize WebDriver
     driver = webdriver.Chrome()
     driver.get(projectURL)
 
-    # Define variables to store scraped data
     project_name = ""
     project_description = ""
     tech_stack = ""
 
     try:
-        # Extract project name
         project_name = WebDriverWait(driver, 10).until(
             EC.visibility_of_element_located((By.XPATH, "//h1"))
         ).text
 
-        # Extract project description with updated class name
         try:
             project_description_element = driver.find_element(By.XPATH, "//*[@id='__next']/div[2]/section[1]/div[1]/div")
             all_text = [element.text for element in project_description_element.find_elements(By.XPATH, ".//*")]
@@ -28,7 +23,6 @@ def scrapper(projectURL):
         except:
             project_description = "No description available"
 
-        # Extract tech stack with updated class name
         tech_stack_elements = driver.find_elements(By.XPATH, "//div[contains(@class, 'sc-edUIhV sc-jmnVvD ProjectTechCard__ProjectTechChip-sc-c8650bcd-0 coEGBY dxbIEt BTjHj')]")
         tech_stack = ", ".join([element.text for element in tech_stack_elements])
 
@@ -38,7 +32,6 @@ def scrapper(projectURL):
     finally:
         driver.quit()
 
-    # Return the data as a dictionary
     data = {
         "Project URL": projectURL,
         "projectName": project_name,
