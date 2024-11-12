@@ -13,14 +13,13 @@ def Heartbeat(request):
 class Devfolio(APIView):
     def post(self, request, *args, **kwargs):
         projectURL = request.data.get('projectURL') 
-        # Call the scrapper function
         if projectURL and projectURL.startswith('https://devfolio.co/projects/'):
             try:
                 scrapedData = scrapper(projectURL)
+                if scrapedData == []:
+                    return Response({'status': 'error', 'message': 'No data found'}, status=404)
                 cruxedData = crux(scrapedData)
-                ps_crux_words = ["Self-Driving Software", "Android", "CAN BUS", "ADAS", "ACC", "FCW", "AEB", "LKA", "Neural Network", 
-                                 "Cost-Effective", "Accessible", "Beta Testing", "Autonomous Driving", "Optimisation", "Mobile GPU"]
-                result = vectorization(ps_crux_words)
+                result = vectorization(cruxedData)
                 return Response({'status': 'success', 'data': result}, status=200)
             except Exception as e:
                 import traceback
