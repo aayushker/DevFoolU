@@ -19,13 +19,13 @@ const Project = () => {
       return;
     }
     const formData = new FormData();
-    formData.append("projectURL", url); 
+    formData.append("projectURL", url);
     try {
       const response = await axios.post(`${backendURL}/api/project/`, formData);
-      if (response.data.status === 'success') {
+      if (response.data.status === "success") {
         router.push({
-          pathname: '/result',
-          query: { data: JSON.stringify(response.data.data) }
+          pathname: "/result",
+          query: { data: JSON.stringify(response.data.data) },
         });
       } else {
         console.error(response.data.message);

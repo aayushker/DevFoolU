@@ -12,8 +12,6 @@ import {
 import { Alert, AlertDescription, AlertTitle } from "@/app/components/ui/alert";
 import { Badge } from "@/app/components/ui/badge";
 import { AlertTriangle } from "lucide-react";
-import { setDefaultHighWaterMark } from "stream";
-import { statfsSync } from "fs";
 
 const Result = () => {
   const router = useRouter();
@@ -21,7 +19,7 @@ const Result = () => {
 
   let matchedProjects: Array<any> = [];
 
-  if (typeof data === 'string') {
+  if (typeof data === "string") {
     try {
       const parsedData = JSON.parse(data);
 
@@ -42,9 +40,9 @@ const Result = () => {
           <AlertTriangle className="h-4 w-4" />
           <AlertTitle>High Similarity Detected</AlertTitle>
           <AlertDescription>
-            {matchedProjects[0]['Similarity with PS (%)'].toFixed(2) > 80 && (
-              `${matchedProjects[0]['Similarity with PS (%)']}` + "% similarity detected with an existing project!"
-            )}
+            {matchedProjects[0]["Similarity with PS (%)"].toFixed(2) > 80 &&
+              `${matchedProjects[0]["Similarity with PS (%)"]}` +
+                "% similarity detected with an existing project!"}
           </AlertDescription>
         </Alert>
       )}
@@ -58,25 +56,33 @@ const Result = () => {
           matchedProjects.map((project: any, index: React.Key) => (
             <Card key={index}>
               <CardHeader>
-                <CardTitle>{project['Project Name']}</CardTitle>
-                <CardDescription>{project['Project Description']}</CardDescription>
+                <CardTitle>{project["Project Name"]}</CardTitle>
+                <CardDescription>
+                  {project["Project Description"]}
+                </CardDescription>
               </CardHeader>
               <CardContent>
                 <div className="flex justify-between items-center">
                   <div className="space-x-2">
-                    {typeof project['Tech Stack'] === 'string' && project['Tech Stack'].split(', ').map((tech, techIndex) => (
-                      <Badge key={techIndex} variant="secondary">
-                        {tech}
-                      </Badge>
-                    ))}
+                    {typeof project["Tech Stack"] === "string" &&
+                      project["Tech Stack"]
+                        .split(", ")
+                        .map((tech, techIndex) => (
+                          <Badge key={techIndex} variant="secondary">
+                            {tech}
+                          </Badge>
+                        ))}
                   </div>
-                    <span className="text-2xl font-bold text-red-500">
-                    {project['Similarity with PS (%)'].toFixed(2)}% Match
-                    </span>
+                  <span className="text-2xl font-bold text-red-500">
+                    {project["Similarity with PS (%)"].toFixed(2)}% Match
+                  </span>
                 </div>
               </CardContent>
               <CardFooter>
-                <Button variant="outline" onClick={() => window.open(project['Project URL'], "_blank")}>
+                <Button
+                  variant="outline"
+                  onClick={() => window.open(project["Project URL"], "_blank")}
+                >
                   View Project
                 </Button>
               </CardFooter>
@@ -94,6 +100,6 @@ const Result = () => {
       </div>
     </div>
   );
-}; 
+};
 
 export default Result;

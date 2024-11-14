@@ -8,13 +8,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/app/components/ui/card";
-import {
-  Upload,
-  Search,
-  FileText,
-  Clock,
-  Database,
-} from "lucide-react";
+import { Upload, Search, FileText, Clock, Database } from "lucide-react";
 import "react-toastify/dist/ReactToastify.css";
 import React from "react";
 import { useEffect } from "react";
@@ -93,8 +87,7 @@ const Hero = () => {
               {
                 icon: Clock,
                 title: "Faster Detection",
-                description:
-                  "Quick turnaround time for instant results",
+                description: "Quick turnaround time for instant results",
               },
               {
                 icon: Database,
@@ -129,7 +122,9 @@ const Hero = () => {
             size="lg"
             className="bg-teal-500 hover:bg-teal-600 text-white"
           >
-            <Link href="/project" className="text-inherit">Get Started </Link>
+            <Link href="/project" className="text-inherit">
+              Get Started{" "}
+            </Link>
           </Button>
         </div>
       </section>
