@@ -150,13 +150,3 @@ By evolving Devfoolio with these future aspects, we aim to create a comprehensiv
 ## 📄 **License**
 
 This project is licensed under the GNU General Public License. See the `LICENSE` file for more details.
-
-
-## 🤝 **Acknowledgments**
-This project built under HackCBS 7.0 hackathon. Thanks to the HackCBS team for organizing this hackathon and providing a platform for innovation and collaboration. We also appreciate the support from MLH for their guidance and resources throughout the event.
-<br />
-We would like to thank the organizers for providing us with the opportunity to work on this project and showcase our skills. We also appreciate the support from the mentors and judges who helped us improve our project and provided valuable feedback.
-<br />
-Team Hacker X Coders
-<br />
-[Aayushker](https://github.com/aayushker) [Chaitanya](https://github.com/hiCXK) [Sarvagya](https://github.com/Sarvagyapradhan)
