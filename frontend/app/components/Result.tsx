@@ -40,7 +40,7 @@ const Result = () => {
           <AlertTriangle className="h-4 w-4" />
           <AlertTitle>High Similarity Detected</AlertTitle>
           <AlertDescription>
-            {matchedProjects[0]["Similarity with PS (%)"].toFixed(2) > 80 &&
+            {matchedProjects[0]["Similarity  PS (%)"].toFixed(2) > 80 &&
               `${matchedProjects[0]["Similarity with PS (%)"]}` +
                 "% similarity detected with an existing project!"}
           </AlertDescription>
