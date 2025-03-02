@@ -6,7 +6,7 @@
 ![Render](https://img.shields.io/badge/Render-Deployed-green?logo=render)
 
 </div>
-DevFoolU is an automated plagiarism detection tool designed to maintain the integrity of hackathons by analyzing project submissions on DevFoolU. It scans each new submission, compares it with existing projects, and identifies potential similarities or copied content to ensure originality and fair competition.
+DevFoolU is an automated plagiarism detection tool designed to maintain the integrity of hackathons by analyzing project submissions on Devfolio. It scans each new submission, compares it with existing projects, and identifies potential similarities or copied content to ensure originality and fair competition.
 
 ## Table of Contents
 
