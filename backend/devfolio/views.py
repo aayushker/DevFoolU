@@ -40,6 +40,74 @@ def Heartbeat(request):
         'database': db_status
     })
 
+def Stats(request):
+    """
+    Get statistics about the project database
+    
+    Returns:
+        JSON response with project count and other stats
+    """
+    try:
+        # Get database connection
+        db_manager = get_db_manager()
+        stats = {
+            'total_projects': 0,
+            'processed_projects': 0,
+            'latest_projects': [],
+            'db_status': 'unavailable'
+        }
+        
+        if db_manager:
+            # Get total number of projects
+            stats['total_projects'] = db_manager.projects.count_documents({})
+            
+            # Get number of projects with crux words (processed projects)
+            stats['processed_projects'] = db_manager.projects.count_documents({"crux_words": {"$exists": True}})
+            
+            # Get 5 latest projects (for showcase)
+            latest_projects = list(db_manager.projects.find(
+                {}, 
+                {"_id": 0, "project_url": 1, "project_name": 1, "tech_stack": 1}
+            ).sort("last_updated", -1).limit(5))
+            
+            stats['latest_projects'] = latest_projects
+            stats['db_status'] = 'connected'
+            
+            # Close connection
+            db_manager.close()
+        else:
+            # Fallback to CSV for stats if no DB connection
+            try:
+                import pandas as pd
+                import os
+                
+                csv_path = os.path.join(os.path.dirname(__file__), "../process/devfolio_projects.csv")
+                if os.path.exists(csv_path):
+                    df = pd.read_csv(csv_path)
+                    stats['total_projects'] = len(df)
+                    stats['processed_projects'] = len(df[df['Description Crux'].notna()])
+                    
+                    # Get latest 5 projects (or all if less than 5)
+                    latest_count = min(5, len(df))
+                    latest_df = df.head(latest_count)
+                    
+                    stats['latest_projects'] = latest_df[['Project URL', 'Project Name', 'Tech Stack']].to_dict(orient='records')
+                    stats['db_status'] = 'csv-fallback'
+            except Exception as e:
+                logging.error(f"CSV fallback error: {str(e)}")
+        
+        logging.info("Stats endpoint accessed")
+        return JsonResponse({
+            'status': 'success',
+            'data': stats
+        })
+    except Exception as e:
+        logging.error(f"Error getting stats: {str(e)}")
+        return JsonResponse({
+            'status': 'error',
+            'message': f'Error: {str(e)}'
+        }, status=500)
+
 class Devfolio(APIView):
     """API for checking project similarity on Devfolio"""
     
