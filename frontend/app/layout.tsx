@@ -5,6 +5,7 @@ import localFont from "next/font/local";
 import { NextUIProvider } from "@nextui-org/react";
 import { ClerkProvider } from "@clerk/nextjs";
 import "./globals.css";
+import { dark } from "@clerk/themes";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -28,14 +29,24 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-      ><NextUIProvider>
-        {/* <ClerkProvider> */}
-          {children}
-        </NextUIProvider>
-      </body>
-    </html>
+    <ClerkProvider
+      appearance={{
+        baseTheme: dark,
+        elements: {
+          formButtonPrimary: "bg-blue-900 hover:bg-blue-800",
+          footerActionLink: "text-blue-900 hover:text-blue-800",
+        },
+      }}
+    >
+      <html lang="en">
+        <body
+          className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+        ><NextUIProvider>
+          {/* <ClerkProvider> */}
+            {children}
+          </NextUIProvider>
+        </body>
+      </html>
+    </ClerkProvider>
   );
 }
