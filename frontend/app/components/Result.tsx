@@ -14,6 +14,8 @@ import { Badge } from "@/app/components/ui/badge";
 import { AlertTriangle, AlertCircle, Check, ExternalLink } from "lucide-react";
 import axios from "axios";
 import { motion } from "framer-motion";
+import { useUser } from "@clerk/nextjs";
+import UserProfile from "./UserProfile";
 
 // Define types for our project data
 interface ProjectData {
@@ -41,6 +43,7 @@ const item = {
 };
 
 const Result = () => {
+  const { isSignedIn, user } = useUser();
   const router = useRouter();
   const { data } = router.query;
   const backendURL = process.env.NEXT_PUBLIC_BACKEND_URL;
@@ -115,6 +118,13 @@ const Result = () => {
     }
   }, [loading, matchedProjects.length, backendURL]);
 
+  // Redirect to sign-in if not authenticated
+  useEffect(() => {
+    if (!isSignedIn) {
+      router.push('/sign-in');
+    }
+  }, [isSignedIn, router]);
+
   const getSimilarityColor = (similarity: number) => {
     if (similarity > 80) return "text-red-500";
     if (similarity > 50) return "text-orange-500";
@@ -142,6 +152,18 @@ const Result = () => {
       );
     }
   };
+
+  // If not signed in, show loading state
+  if (!isSignedIn) {
+    return (
+      <div className="min-h-screen bg-gradient-to-b from-gray-50 to-gray-100 flex items-center justify-center">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-900 mx-auto"></div>
+          <p className="mt-4 text-gray-600">Redirecting to sign in...</p>
+        </div>
+      </div>
+    );
+  }
 
   // If still loading, show loading state
   if (loading) {
@@ -177,8 +199,12 @@ const Result = () => {
     <motion.div
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
-      className="flex-grow container mx-auto px-4 py-12"
+      className="flex-grow container mx-auto px-4 py-12 relative"
     >
+      <div className="absolute top-4 right-4">
+        <UserProfile />
+      </div>
+      
       {/* Result Summary Panel */}
       <div className="mb-12 bg-white rounded-xl shadow-lg overflow-hidden">
         <div className="bg-blue-900 p-6 text-white">
