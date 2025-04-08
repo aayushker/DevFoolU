@@ -27,6 +27,7 @@ import "react-toastify/dist/ReactToastify.css";
 import React, { useState, useEffect } from "react";
 import { Badge } from "@/app/components/ui/badge";
 import { motion } from "framer-motion";
+import UserProfile from "./UserProfile";
 
 // Animation variants
 const container = {
@@ -107,6 +108,10 @@ const Hero = () => {
       {/* Hero Section */}
       <section className="bg-gradient-to-br from-blue-900 to-blue-800 text-white py-20">
         <div className="container mx-auto px-4">
+          <div className="absolute top-4 right-4">
+            <UserProfile />
+          </div>
+          
           <motion.div
             initial={{ opacity: 0, y: -20 }}
             animate={{ opacity: 1, y: 0 }}
