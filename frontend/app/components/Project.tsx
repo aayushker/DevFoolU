@@ -1,5 +1,5 @@
 "use client";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useRouter } from "next/router";
 import { Button } from "@/app/components/ui/button";
 import { Input } from "@/app/components/ui/input";
@@ -17,6 +17,8 @@ import {
   CardFooter,
 } from "@/app/components/ui/card";
 import { Alert, AlertDescription, AlertTitle } from "@/app/components/ui/alert";
+import { useUser } from "@clerk/nextjs";
+import UserProfile from "@/app/components/UserProfile";
 
 const container = {
   hidden: { opacity: 0 },
@@ -34,11 +36,31 @@ const item = {
 };
 
 const Project = () => {
+  const { isSignedIn, user } = useUser();
   const backendURL = process.env.NEXT_PUBLIC_BACKEND_URL;
   const [url, setUrl] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [stage, setStage] = useState(0); // 0: initial, 1: validating, 2: analyzing, 3: processing
   const router = useRouter();
+
+  // Redirect to sign-in if not authenticated
+  useEffect(() => {
+    if (!isSignedIn) {
+      router.push('/sign-in');
+    }
+  }, [isSignedIn, router]);
+
+  // If not signed in, show loading state
+  if (!isSignedIn) {
+    return (
+      <div className="min-h-screen bg-gradient-to-b from-gray-50 to-gray-100 flex items-center justify-center">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-900 mx-auto"></div>
+          <p className="mt-4 text-gray-600">Redirecting to sign in...</p>
+        </div>
+      </div>
+    );
+  }
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -122,6 +144,9 @@ const Project = () => {
   return (
     <div className="min-h-screen bg-gradient-to-b from-gray-50 to-gray-100 flex flex-col">
       <ToastContainer />
+      <div className="absolute top-4 right-4">
+        <UserProfile />
+      </div>
       <div className="flex-grow flex items-center justify-center p-4 md:p-8">
         <motion.div 
           initial={{ opacity: 0, y: 20 }}
