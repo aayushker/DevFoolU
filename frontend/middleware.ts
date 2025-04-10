@@ -1,13 +1,31 @@
-import { authMiddleware } from "@clerk/nextjs";
+import { clerkMiddleware, createRouteMatcher } from "@clerk/nextjs/server";
 
-// This example protects all routes including api/trpc routes
-// Please edit this to allow other routes to be public as needed.
-// See https://clerk.com/docs/references/nextjs/auth-middleware for more information about configuring your middleware
-export default authMiddleware({
-  // Public routes that don't require authentication
-  publicRoutes: ["/", "/api/heartbeat", "/api/stats"],
+// Define public routes that don't require authentication
+const isPublicRoute = createRouteMatcher([
+  "/", 
+  "/api/heartbeat(.*)", 
+  "/api/stats(.*)",
+  "/sign-in(.*)",
+  "/sign-up(.*)"
+]);
+
+// Invert the logic - protect everything except public routes
+const isProtectedRoute = createRouteMatcher([
+  "/((?!/).*)" // Match everything except the routes defined in isPublicRoute
+]);
+
+// By default, no routes are protected, so we need to explicitly protect non-public routes
+export default clerkMiddleware(async (auth, req) => {
+  if (!isPublicRoute(req)) {
+    await auth.protect();
+  }
 });
 
 export const config = {
-  matcher: ["/((?!.+\\.[\\w]+$|_next).*)", "/", "/(api|trpc)(.*)"],
-}; 
+  matcher: [
+    // Skip Next.js internals and all static files
+    '/((?!_next|[^?]*\\.(?:html?|css|js(?!on)|jpe?g|webp|png|gif|svg|ttf|woff2?|ico|csv|docx?|xlsx?|zip|webmanifest)).*)',
+    // Always run for API routes
+    '/(api|trpc)(.*)',
+  ],
+};
