@@ -10,7 +10,7 @@ djangorestframework==3.15.2
 fake-useragent==1.4.0
 filelock==3.16.1
 fsspec==2024.10.0
-h11==0.14.0
+h11==0.16.0
 huggingface-hub==0.26.2
 idna==3.10
 Jinja2==3.1.6
