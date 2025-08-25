@@ -29,6 +29,20 @@ import { Badge } from "@/app/components/ui/badge";
 import { motion } from "framer-motion";
 import UserProfile from "./UserProfile";
 
+// Types
+interface LatestProject {
+  project_name?: string;
+  project_url: string;
+  tech_stack?: string;
+}
+
+interface DbStats {
+  total_projects: number;
+  processed_projects: number;
+  latest_projects: LatestProject[];
+  db_status: string;
+}
+
 // Animation variants
 const container = {
   hidden: { opacity: 0 },
@@ -47,7 +61,7 @@ const item = {
 
 const Hero = () => {
   const backendURL = process.env.NEXT_PUBLIC_BACKEND_URL;
-  const [dbStats, setDbStats] = useState({
+  const [dbStats, setDbStats] = useState<DbStats>({
     total_projects: 0,
     processed_projects: 0,
     latest_projects: [],
@@ -372,7 +386,7 @@ const Hero = () => {
                     </CardContent>
                     <CardFooter>
                       <Button 
-                        variant="outline" 
+                        variant="bordered" 
                         size="sm" 
                         onClick={() => window.open(project.project_url, '_blank')}
                         className="w-full text-blue-900 border-blue-900 hover:bg-blue-900 hover:text-white"
