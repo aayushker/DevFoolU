@@ -90,9 +90,6 @@ const Project = () => {
       return;
     }
 
-    const formData = new FormData();
-    formData.append("projectURL", url);
-
     try {
       console.log("Submitting to:", `${backendURL}/api/project/`);
 
@@ -100,14 +97,27 @@ const Project = () => {
       setTimeout(() => setStage(2), 1500); // Move to analyzing after 1.5s
       setTimeout(() => setStage(3), 3000); // Move to processing after 3s
 
-      const response = await axios.post(`${backendURL}/api/project/`, formData);
+      const response = await axios.post(
+        `${backendURL}/api/project/`,
+        { projectURL: url },
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
 
       if (response.data.status === "success") {
         toast.success("Analysis complete!");
-        router.push({
-          pathname: "/result",
-          query: { data: JSON.stringify(response.data.data) },
-        });
+
+        // Store data in sessionStorage instead of URL
+        sessionStorage.setItem(
+          "analysisResult",
+          JSON.stringify(response.data.data)
+        );
+
+        // Navigate without data in URL
+        router.push("/result");
       } else {
         console.error(response.data.message);
         toast.error(response.data.message || "Error analyzing project");
