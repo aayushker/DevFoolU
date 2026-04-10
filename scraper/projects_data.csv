@@ -1,0 +1,7 @@
+urlOfProject,nameOfProject,descriptionOfProject,problemSolved,challengesFaced,technologiesUsed
+https://devfolio.co/projects/dress-colour-changer-c99c,Dress colour changer,Change colour of dress with the AI,,,"TensorFlow, OpenCV-Python, Python3, CUDA"
+https://devfolio.co/projects/using-ai-x-chainlinkrvf-to-train-emotions-df85,Training Emotion Models with AI and Chainlink VRF,Emotion-Aware Oracles for Enhanced On-Chain Decisi,,,"Solidity, React, Python"
+https://devfolio.co/projects/dbuz,Dbuz,"A smart, secure and streamlined transportation system.",,,"Firebase, Raspberry Pi, Java, Mapbox, Figma, Python - OpenCV, GPS module, IBM Watson Assistant., API Integration, GPRS module"
+https://devfolio.co/projects/circuit-solver-4a00,Circuit Solver,"To solve a circuit by scanning its image. We need to click a picture of an electronic circuit and 
+it will solve the circuit for us.",,,"OpenCV, Deep Learning, Tkinter, Python"
+https://devfolio.co/projects/teleport,Teleport,A Google meet for files with the convenience of airdrop,,,"React, WebRTC, Node, Web-Torrent"

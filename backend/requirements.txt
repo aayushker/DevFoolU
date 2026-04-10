@@ -1,0 +1,36 @@
+# FastAPI Backend Dependencies
+fastapi
+uvicorn
+sqlalchemy
+passlib[bcrypt]
+python-jose[cryptography]
+python-multipart
+pydantic[email]
+python-dotenv
+
+# Auth0
+authlib
+httpx
+
+# Async MongoDB
+motor
+pymongo
+
+# Machine Learning / Embeddings
+sentence-transformers
+torch
+numpy
+
+# AI Intelligence
+google-generativeai
+
+# Web Scraping (shared with scraper module)
+playwright
+
+# Utilities
+python-multipart
+aiofiles
+python-dotenv
+
+# Logging
+colorlog

@@ -1,0 +1,21 @@
+[project]
+name = "devfolio_scraper"
+version = "0.1.0"
+description = "Production-grade scraper for Devfolio projects."
+readme = "README.md"
+requires-python = ">=3.10"
+dependencies = [
+    "playwright>=1.49.0",
+    "tqdm>=4.66.0",
+    "tenacity>=8.2.3"
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=8.0.0"
+]
+
+[build-system]
+requires = ["setuptools>=68.0.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
