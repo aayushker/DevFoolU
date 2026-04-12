@@ -26,10 +26,19 @@ class ScraperService:
     
     def _create_config(self) -> ScraperConfig:
         """Create scraper configuration from settings"""
+        blocked_resource_types = tuple(
+            item.strip()
+            for item in settings.SCRAPER_BLOCK_RESOURCE_TYPES.split(",")
+            if item.strip()
+        )
+
         return ScraperConfig(
             base_url=settings.SCRAPER_BASE_URL,
             headless=settings.SCRAPER_HEADLESS,
             request_timeout_ms=settings.SCRAPER_TIMEOUT_MS,
+            page_ready_timeout_ms=settings.SCRAPER_PAGE_READY_TIMEOUT_MS,
+            navigation_wait_until=settings.SCRAPER_NAVIGATION_WAIT_UNTIL,
+            blocked_resource_types=blocked_resource_types,
             max_retries=settings.SCRAPER_MAX_RETRIES,
             retry_backoff_seconds=settings.SCRAPER_RETRY_BACKOFF,
             concurrency=settings.SCRAPER_CONCURRENCY,
@@ -179,7 +188,7 @@ class ScraperService:
                 logger.info(f"Collected {len(urls)} project URLs")
                 
                 # Scrape projects
-                projects, failures = await scrape_projects(
+                projects, failures, _failure_reasons = await scrape_projects(
                     playwright,
                     urls[:limit],
                     config,
