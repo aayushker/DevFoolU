@@ -2,10 +2,14 @@ from pymongo import MongoClient
 from pymongo.errors import OperationFailure
 from pymongo.server_api import ServerApi
 
+try:
+    from env_utils import require_env_value
+except ImportError:
+    from knowledge_base_scraper.env_utils import require_env_value
+
 # --- 1. Configuration ---
 
-# IMPORTANT: Replace with your actual MongoDB Atlas connection string
-CONNECTION_STRING = "mongodb+srv://singhaayushker_db_user:y3aQRy6lKFQfkrDa@cluster0.w8pounl.mongodb.net/?appName=Cluster0"
+CONNECTION_STRING = require_env_value("MONGODB_URL")
 
 # Specify your database and collection names
 DATABASE_NAME = "DevFoolU"  # Replace with your desired database name
@@ -65,10 +69,7 @@ project_schema_validator = {
 
 try:
     # Connect to MongoDB Atlas
-    # client = MongoClient(CONNECTION_STRING)
-    uri = "mongodb+srv://singhaayushker_db_user:y3aQRy6lKFQfkrDa@cluster0.w8pounl.mongodb.net/?appName=Cluster0"
-# Create a new client and connect to the server
-    client = MongoClient(uri, server_api=ServerApi('1'))
+    client = MongoClient(CONNECTION_STRING, server_api=ServerApi('1'))
     # Ping the server to confirm connection
     client.admin.command('ping')
     print("Pinged your deployment. You successfully connected to MongoDB!")
