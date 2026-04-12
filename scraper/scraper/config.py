@@ -24,6 +24,9 @@ class ScraperConfig:
     headless: bool = True
     concurrency: int = 6
     request_timeout_ms: int = 45_000
+    page_ready_timeout_ms: int = 12_000
+    navigation_wait_until: str = "domcontentloaded"
+    blocked_resource_types: Tuple[str, ...] = field(default_factory=lambda: ("image", "media", "font"))
     output_data_path: Path = field(default_factory=lambda: Path("projects_data.csv"))
     output_embeddings_path: Path = field(default_factory=lambda: Path("embeddings.csv"))
     log_path: Path = field(default_factory=lambda: Path("scraper.log"))
