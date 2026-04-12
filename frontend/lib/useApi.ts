@@ -2,7 +2,7 @@ import { useAuth } from "@/lib/auth0-provider";
 import { useEffect } from "react";
 import axios from "axios";
 
-const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8080";
+const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000";
 
 export const useApi = () => {
   const { getAccessTokenSilently, isAuthenticated } = useAuth();
@@ -31,7 +31,7 @@ export const useApi = () => {
     },
     (error) => {
       return Promise.reject(error);
-    }
+    },
   );
 
   return api;
@@ -39,7 +39,7 @@ export const useApi = () => {
 
 // For non-hook usage, create a basic API instance
 export const createAuthenticatedApi = async (
-  getAccessTokenSilently: () => Promise<string>
+  getAccessTokenSilently: () => Promise<string>,
 ) => {
   const api = axios.create({
     baseURL: `${API_URL}/api`,

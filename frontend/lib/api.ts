@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8080";
+const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000";
 
 const api = axios.create({
   baseURL: `${API_URL}/api`,
@@ -23,7 +23,7 @@ api.interceptors.request.use(
   },
   (error) => {
     return Promise.reject(error);
-  }
+  },
 );
 
 // Response interceptor for error handling
@@ -38,7 +38,7 @@ api.interceptors.response.use(
       }
     }
     return Promise.reject(error);
-  }
+  },
 );
 
 // Auth API
@@ -80,7 +80,7 @@ export const tasksAPI = {
       status?: string;
       priority?: string;
       due_date?: string;
-    }
+    },
   ) => api.post(`/projects/${projectId}/tasks`, taskData),
 
   update: (projectId: string, taskId: string, taskData: any) =>

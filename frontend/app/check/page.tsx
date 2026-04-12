@@ -5,7 +5,15 @@ import { useRouter } from "next/navigation";
 import Navbar from "@/components/navbar";
 import Footer from "@/components/footer";
 import { BackgroundBeams } from "@/components/ui/background-beams";
-import { ArrowRight, Loader2, CheckCircle2, AlertCircle, Shield, Zap, Lock } from "lucide-react";
+import {
+  ArrowRight,
+  Loader2,
+  CheckCircle2,
+  AlertCircle,
+  Shield,
+  Zap,
+  Lock,
+} from "lucide-react";
 import { motion } from "framer-motion";
 
 export default function CheckPage() {
@@ -27,11 +35,14 @@ export default function CheckPage() {
 
     setLoading(true);
     try {
-      const response = await fetch("http://localhost:8080/api/similarity/search-by-url", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ url }),
-      });
+      const response = await fetch(
+        "http://localhost:8000/api/similarity/search-by-url",
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ url }),
+        },
+      );
 
       if (!response.ok) throw new Error("Failed to analyze project");
 
@@ -41,16 +52,32 @@ export default function CheckPage() {
 
       setTimeout(() => router.push("/results"), 1200);
     } catch (err) {
-      setError(err instanceof Error ? err.message : "An error occurred. Please try again.");
+      setError(
+        err instanceof Error
+          ? err.message
+          : "An error occurred. Please try again.",
+      );
       setLoading(false);
     }
   };
 
   const whyCheck = [
     { icon: "✓", label: "Ensure project originality", color: "text-green-400" },
-    { icon: "🛡️", label: "Protect your intellectual work", color: "text-blue-400" },
-    { icon: "⚠️", label: "Avoid plagiarism concerns before submission", color: "text-yellow-400" },
-    { icon: "⭐", label: "Build credibility and trust", color: "text-purple-400" },
+    {
+      icon: "🛡️",
+      label: "Protect your intellectual work",
+      color: "text-blue-400",
+    },
+    {
+      icon: "⚠️",
+      label: "Avoid plagiarism concerns before submission",
+      color: "text-yellow-400",
+    },
+    {
+      icon: "⭐",
+      label: "Build credibility and trust",
+      color: "text-purple-400",
+    },
   ];
 
   return (
@@ -114,7 +141,10 @@ export default function CheckPage() {
                   </div>
                 </div>
                 <p className="text-xs text-gray-600 mt-2">
-                  Format: <span className="text-gray-500">https://devfolio.co/projects/project-id</span>
+                  Format:{" "}
+                  <span className="text-gray-500">
+                    https://devfolio.co/projects/project-id
+                  </span>
                 </p>
               </div>
 
@@ -135,8 +165,13 @@ export default function CheckPage() {
                   animate={{ opacity: 1, y: 0 }}
                   className="flex items-start gap-3 px-4 py-3 rounded-xl bg-green-500/10 border border-green-500/30 text-green-400"
                 >
-                  <CheckCircle2 size={18} className="flex-shrink-0 mt-0.5 animate-pulse" />
-                  <span className="text-sm font-medium">Analysis complete! Redirecting to results...</span>
+                  <CheckCircle2
+                    size={18}
+                    className="flex-shrink-0 mt-0.5 animate-pulse"
+                  />
+                  <span className="text-sm font-medium">
+                    Analysis complete! Redirecting to results...
+                  </span>
                 </motion.div>
               )}
 
@@ -159,7 +194,10 @@ export default function CheckPage() {
                 ) : (
                   <>
                     <span className="relative z-10">Check for Plagiarism</span>
-                    <ArrowRight size={20} className="relative z-10 group-hover:translate-x-1 transition-transform" />
+                    <ArrowRight
+                      size={20}
+                      className="relative z-10 group-hover:translate-x-1 transition-transform"
+                    />
                   </>
                 )}
               </button>
@@ -173,12 +211,29 @@ export default function CheckPage() {
             transition={{ duration: 0.5, delay: 0.2 }}
             className="mb-8"
           >
-            <h2 className="text-xl font-bold text-white mb-5 text-center">How It Works</h2>
+            <h2 className="text-xl font-bold text-white mb-5 text-center">
+              How It Works
+            </h2>
             <div className="grid md:grid-cols-3 gap-4">
               {[
-                { step: "01", icon: "📤", title: "Submit URL", desc: "Enter your Devfolio project URL" },
-                { step: "02", icon: "⚙️", title: "AI Analysis", desc: "We extract and process your project data" },
-                { step: "03", icon: "📊", title: "Get Results", desc: "Receive a detailed similarity report" },
+                {
+                  step: "01",
+                  icon: "📤",
+                  title: "Submit URL",
+                  desc: "Enter your Devfolio project URL",
+                },
+                {
+                  step: "02",
+                  icon: "⚙️",
+                  title: "AI Analysis",
+                  desc: "We extract and process your project data",
+                },
+                {
+                  step: "03",
+                  icon: "📊",
+                  title: "Get Results",
+                  desc: "Receive a detailed similarity report",
+                },
               ].map((item, i) => (
                 <div
                   key={i}
@@ -186,7 +241,9 @@ export default function CheckPage() {
                 >
                   <div className="flex items-center gap-3 mb-3">
                     <span className="text-2xl">{item.icon}</span>
-                    <span className="text-xs font-mono text-purple-400 font-bold">{item.step}</span>
+                    <span className="text-xs font-mono text-purple-400 font-bold">
+                      {item.step}
+                    </span>
                   </div>
                   <h3 className="font-bold text-white mb-1">{item.title}</h3>
                   <p className="text-sm text-gray-500">{item.desc}</p>
@@ -208,8 +265,13 @@ export default function CheckPage() {
             </h2>
             <div className="grid md:grid-cols-2 gap-3">
               {whyCheck.map((item, i) => (
-                <div key={i} className="flex items-center gap-3 p-3 rounded-lg hover:bg-white/5 transition-colors">
-                  <span className={`text-lg flex-shrink-0 ${item.color}`}>{item.icon}</span>
+                <div
+                  key={i}
+                  className="flex items-center gap-3 p-3 rounded-lg hover:bg-white/5 transition-colors"
+                >
+                  <span className={`text-lg flex-shrink-0 ${item.color}`}>
+                    {item.icon}
+                  </span>
                   <span className="text-sm text-gray-400">{item.label}</span>
                 </div>
               ))}
@@ -225,8 +287,11 @@ export default function CheckPage() {
           >
             <Lock size={18} className="text-purple-400 flex-shrink-0 mt-0.5" />
             <p className="text-sm text-gray-400">
-              <span className="font-semibold text-white">Your Privacy Matters: </span>
-              Your project information is handled securely and only used for plagiarism detection.
+              <span className="font-semibold text-white">
+                Your Privacy Matters:{" "}
+              </span>
+              Your project information is handled securely and only used for
+              plagiarism detection.
             </p>
           </motion.div>
         </div>
