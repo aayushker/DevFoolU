@@ -4,8 +4,13 @@ from typing import List, Dict
 from pymongo import MongoClient
 from pymongo.server_api import ServerApi
 
+try:
+    from env_utils import require_env_value
+except ImportError:
+    from knowledge_base_scraper.env_utils import require_env_value
+
 # MongoDB Configuration
-CONNECTION_STRING = "mongodb+srv://singhaayushker_db_user:y3aQRy6lKFQfkrDa@cluster0.w8pounl.mongodb.net/?retryWrites=true&w=majority"
+CONNECTION_STRING = require_env_value("MONGODB_URL")
 DATABASE_NAME = "DevFoolU"
 COLLECTION_NAME = "Cluster0"
 
