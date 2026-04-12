@@ -1,6 +1,6 @@
 """Router for bulk scraping and processing operations"""
 
-from fastapi import APIRouter, HTTPException, BackgroundTasks
+from fastapi import APIRouter, HTTPException, BackgroundTasks, Header
 from fastapi.responses import StreamingResponse
 from pydantic import BaseModel
 from typing import List, Dict, Optional
@@ -12,6 +12,7 @@ from datetime import datetime
 from services.scraper import scraper_service
 from services.embedding import embedding_service
 from services.mongodb import mongodb_client
+from services.mass_ingestor import mass_ingestor_service
 from core.config import settings
 
 logger = logging.getLogger("DevFoolU.routers.bulk")
@@ -50,8 +51,27 @@ class GenerateEmbeddingsResponse(BaseModel):
     failed: int
 
 
+class MassIngestStartRequest(BaseModel):
+    """Request model for starting mass ingestion."""
+    mode: str = "backfill"  # backfill | incremental
+    target_projects: Optional[int] = None
+
+
+class MassIngestControlResponse(BaseModel):
+    """Response model for ingestion control actions."""
+    status: str
+    message: str
+    job_id: Optional[str] = None
+
+
 # Background task storage
 background_tasks_status = {}
+
+
+def _validate_admin_token(x_admin_token: Optional[str] = Header(default=None)):
+    """Require admin token only when configured."""
+    if settings.MASS_INGEST_ADMIN_TOKEN and x_admin_token != settings.MASS_INGEST_ADMIN_TOKEN:
+        raise HTTPException(status_code=401, detail="Invalid admin token")
 
 
 @router.post("/scrape-stream")
@@ -322,3 +342,112 @@ async def get_bulk_status():
             status_code=500,
             detail=f"Error getting status: {str(e)}"
         )
+
+
+@router.post("/ingest/start", response_model=MassIngestControlResponse)
+async def start_mass_ingest(
+    request: MassIngestStartRequest,
+    x_admin_token: Optional[str] = Header(default=None),
+):
+    """Start a mass ingestion job."""
+    _validate_admin_token(x_admin_token)
+
+    try:
+        result = await mass_ingestor_service.start(
+            mode=request.mode,
+            target_projects=request.target_projects,
+        )
+        if result.get("started"):
+            return MassIngestControlResponse(
+                status="success",
+                message="Mass ingest job started",
+                job_id=result.get("job_id"),
+            )
+
+        return MassIngestControlResponse(
+            status="running",
+            message=result.get("message", "Mass ingest job already running"),
+            job_id=result.get("job_id"),
+        )
+
+    except Exception as e:
+        logger.error(f"Error starting mass ingest: {e}", exc_info=True)
+        raise HTTPException(status_code=500, detail=f"Error starting mass ingest: {str(e)}")
+
+
+@router.post("/ingest/pause", response_model=MassIngestControlResponse)
+async def pause_mass_ingest(
+    job_id: Optional[str] = None,
+    x_admin_token: Optional[str] = Header(default=None),
+):
+    """Pause a running mass ingestion job."""
+    _validate_admin_token(x_admin_token)
+
+    result = await mass_ingestor_service.pause(job_id=job_id)
+    return MassIngestControlResponse(
+        status="success" if result.get("paused") else "not_found",
+        message=result.get("message", "Mass ingest job paused"),
+        job_id=result.get("job_id"),
+    )
+
+
+@router.post("/ingest/resume", response_model=MassIngestControlResponse)
+async def resume_mass_ingest(
+    job_id: Optional[str] = None,
+    x_admin_token: Optional[str] = Header(default=None),
+):
+    """Resume a paused mass ingestion job."""
+    _validate_admin_token(x_admin_token)
+
+    result = await mass_ingestor_service.resume(job_id=job_id)
+    return MassIngestControlResponse(
+        status="success" if result.get("resumed") else "not_found",
+        message=result.get("message", "Mass ingest job resumed"),
+        job_id=result.get("job_id"),
+    )
+
+
+@router.post("/ingest/stop", response_model=MassIngestControlResponse)
+async def stop_mass_ingest(
+    job_id: Optional[str] = None,
+    x_admin_token: Optional[str] = Header(default=None),
+):
+    """Stop a running mass ingestion job."""
+    _validate_admin_token(x_admin_token)
+
+    result = await mass_ingestor_service.stop(job_id=job_id)
+    return MassIngestControlResponse(
+        status="success" if result.get("stopped") else "not_found",
+        message=result.get("message", "Mass ingest stop requested"),
+        job_id=result.get("job_id"),
+    )
+
+
+@router.get("/ingest/status")
+async def ingest_status(
+    job_id: Optional[str] = None,
+    x_admin_token: Optional[str] = Header(default=None),
+):
+    """Get status for one ingest job (current job by default)."""
+    _validate_admin_token(x_admin_token)
+
+    status = await mass_ingestor_service.get_status(job_id=job_id)
+    if not status:
+        raise HTTPException(status_code=404, detail="No ingest job found")
+    return {"status": "success", "job": status}
+
+
+@router.get("/ingest/jobs")
+async def list_ingest_jobs(
+    limit: int = 10,
+    x_admin_token: Optional[str] = Header(default=None),
+):
+    """List recent ingestion jobs."""
+    _validate_admin_token(x_admin_token)
+
+    jobs = await mass_ingestor_service.list_jobs(limit=max(1, min(limit, 100)))
+    return {
+        "status": "success",
+        "count": len(jobs),
+        "jobs": jobs,
+    }
