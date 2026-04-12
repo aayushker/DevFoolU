@@ -40,7 +40,12 @@ async def run(config: ScraperConfig):
             logger.error("No project URLs collected. Exiting.")
             return 1
 
-        records, failures = await scrape_projects(playwright, urls[: config.target_projects], config, logger)
+        records, failures, _failure_reasons = await scrape_projects(
+            playwright,
+            urls[: config.target_projects],
+            config,
+            logger,
+        )
 
     write_projects_csv(records, config.output_data_path)
     write_embeddings_placeholder(records, config.output_embeddings_path)

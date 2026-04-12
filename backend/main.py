@@ -16,6 +16,7 @@ from core.config import settings
 from core.logger import setup_logging
 from services.mongodb import mongodb_client
 from services.embedding import embedding_service
+from services.mass_ingestor import mass_ingestor_service
 
 # Setup logging
 logger = setup_logging()
@@ -42,6 +43,17 @@ async def lifespan(app: FastAPI):
     except Exception as e:
         logger.error(f"❌ Failed to load embedding model: {e}")
         raise
+
+    # Optionally start mass ingestion in background
+    try:
+        startup_ingest = await mass_ingestor_service.start_on_startup_if_enabled()
+        if startup_ingest and startup_ingest.get("started"):
+            logger.info(
+                "✅ Mass ingest job started on startup (job_id=%s)",
+                startup_ingest.get("job_id"),
+            )
+    except Exception as e:
+        logger.error(f"❌ Failed to start mass ingest on startup: {e}")
     
     logger.info("🚀 Server started successfully!")
     
@@ -49,6 +61,10 @@ async def lifespan(app: FastAPI):
     
     # Shutdown
     logger.info("Shutting down DevFoolU API Server...")
+    try:
+        await mass_ingestor_service.stop()
+    except Exception as e:
+        logger.warning(f"Failed to stop mass ingest cleanly: {e}")
     await mongodb_client.close()
     logger.info("✅ MongoDB connection closed")
     logger.info("👋 Server shutdown complete")
