@@ -82,7 +82,20 @@ MONGODB_COLLECTION=Cluster0
 
 # CORS
 CORS_ORIGINS=["http://localhost:3000", "http://localhost:3001"]
+
+# Mass Ingestor (optional)
+MASS_INGEST_ENABLED=true
+MASS_INGEST_ON_STARTUP=false
+MASS_INGEST_STARTUP_MODE=backfill
+MASS_INGEST_TARGET_PROJECTS=97000
+MASS_INGEST_INCREMENTAL_TARGET_PROJECTS=300
+MASS_INGEST_BATCH_SIZE=100
+MASS_INGEST_DISCOVERY_HEARTBEAT_SECONDS=5
+MASS_INGEST_SKIP_EXISTING_PROJECT_URLS=true
+MASS_INGEST_ADMIN_TOKEN=
 ```
+
+If `MASS_INGEST_ADMIN_TOKEN` is set, pass it using `x-admin-token` header for ingest-control endpoints.
 
 ## 🚀 Running the Server
 
@@ -248,6 +261,40 @@ POST /api/bulk/generate-embeddings-stream
 ```
 GET /api/bulk/status
 ```
+
+#### 6. Start Mass Ingest Job
+
+```
+POST /api/bulk/ingest/start
+```
+
+Request body:
+
+```json
+{
+  "mode": "backfill",
+  "target_projects": 97000
+}
+```
+
+#### 7. Pause/Resume/Stop Mass Ingest Job
+
+```
+POST /api/bulk/ingest/pause
+POST /api/bulk/ingest/resume
+POST /api/bulk/ingest/stop
+```
+
+Optional query param: `job_id=<job-id>`
+
+#### 8. Ingest Job Status and History
+
+```
+GET /api/bulk/ingest/status
+GET /api/bulk/ingest/jobs?limit=10
+```
+
+`/ingest/status` returns persisted counters and URL state summary (`pending`, `processing`, `succeeded`, `failed`).
 
 ## 🔄 Typical Workflows
 

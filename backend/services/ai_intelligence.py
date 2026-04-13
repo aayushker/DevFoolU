@@ -26,8 +26,8 @@ class AIIntelligenceService:
             genai.configure(api_key=settings.GEMINI_API_KEY)
             self.model = genai.GenerativeModel(settings.GEMINI_MODEL)
             logger.info(f"Gemini AI initialized with model: {settings.GEMINI_MODEL}")
-        except Exception as e:
-            logger.error(f"Error initializing Gemini AI: {e}")
+        except Exception:
+            logger.exception("Error initializing Gemini AI")
             self.model = None
     
     def _create_analysis_prompt(
@@ -120,13 +120,13 @@ Format your response as clear, concise bullet points. Be direct and insightful."
                 "projects_analyzed": len(similar_projects)
             }
         
-        except Exception as e:
-            logger.error(f"Error generating AI verdict: {e}", exc_info=True)
+        except Exception:
+            logger.exception("Error generating AI verdict")
             return {
                 "verdict": "• AI analysis temporarily unavailable.\n• Please review the similarity scores manually.",
                 "model": settings.GEMINI_MODEL,
                 "status": "error",
-                "error": str(e)
+                "error": "AI generation failed"
             }
     
     def is_available(self) -> bool:

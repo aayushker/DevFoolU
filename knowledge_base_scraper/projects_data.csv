@@ -236,7 +236,7 @@ https://devfolio.co/projects/rupya-776b,Rupya,Zero collateral lending platform w
 ⌛️ Covalent - Real-time on-chain data via API, for faucet, borrow, and all information across dashboards.
 📚 StackOS - Decentralized docker deployment of all 3 frontend apps. (Faucet, Main App, Landing Page) (
 
-docker run -d -p 8080:80 naikaayush/web-app
+docker run -d -p 8000:80 naikaayush/web-app
 
 )
 ⛓ Chainlink - Price feeds for calculating interest earned in staking RUP (tied to USDC on test net).
