@@ -53,19 +53,8 @@ export default function HeroSection() {
 
       {/* Content */}
       <div className="relative z-10 max-w-5xl mx-auto text-center">
-        {/* Badge */}
-        <motion.div
-          custom={0}
-          variants={fadeUp}
-          initial="hidden"
-          animate="show"
-          className="inline-flex items-center gap-2 mb-8 px-4 py-1.5 rounded-full border border-purple-500/40 bg-purple-500/10 backdrop-blur-sm"
-        >
-          <span className="inline-block w-2 h-2 bg-green-400 rounded-full animate-pulse" />
-          <span className="text-sm font-medium text-purple-300">
-            AI-Powered Detection Engine • Live
-          </span>
-        </motion.div>
+        {/* Spacer to preserve layout after removing badge */}
+        <div className="mb-8 h-[34px]" aria-hidden="true" />
 
         {/* Headline */}
         <motion.h1

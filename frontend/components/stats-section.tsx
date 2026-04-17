@@ -41,21 +41,21 @@ export default function StatsSection() {
       label: "Indexed Projects",
       value: visible ? projects.toLocaleString() : "0",
       description: "Hackathon projects in our database",
-      icon: "📚",
+      // icon: "📚",
       color: "#7c3aed",
     },
     {
       label: "Projects Analyzed",
       value: visible ? analyzed.toLocaleString() : "0",
       description: "Successfully processed & checked",
-      icon: "⚡",
+      // icon: "⚡",
       color: "#a855f7",
     },
     {
       label: "Average Check Time",
       value: "<3s",
       description: "From URL to full report",
-      icon: "⏱️",
+      // icon: "⏱️",
       color: "#c084fc",
     },
   ];
@@ -114,7 +114,7 @@ export default function StatsSection() {
                 color={`${stat.color}30`}
                 className="h-full flex flex-col items-center text-center p-8 bg-white/[0.03] border-white/10 rounded-2xl"
               >
-                <div className="text-4xl mb-4">{stat.icon}</div>
+               {/* <div className="text-4xl mb-4">{stat.icon}</div> */}
                 <p className="text-5xl font-extrabold text-white mb-2 tabular-nums">
                   {stat.value}
                 </p>

@@ -36,10 +36,10 @@ export default function Navbar() {
         >
           {/* Logo */}
           <Link href="/" className="flex items-center space-x-2 group">
-            <div className="w-9 h-9 bg-gradient-to-br from-violet-600 to-purple-500 rounded-lg flex items-center justify-center shadow-lg shadow-purple-500/30 group-hover:shadow-purple-500/60 group-hover:scale-110 transition-all duration-300">
+            {/* <div className="w-9 h-9 bg-gradient-to-br from-violet-600 to-purple-500 rounded-lg flex items-center justify-center shadow-lg shadow-purple-500/30 group-hover:shadow-purple-500/60 group-hover:scale-110 transition-all duration-300">
               <Zap className="text-white" size={18} />
-            </div>
-            <span className="font-bold text-lg text-white">
+            </div> */}
+            <span className="font-bold text-2xl text-white">
               Dev<span className="text-purple-400">Fool</span>You
             </span>
           </Link>
