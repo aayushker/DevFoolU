@@ -39,8 +39,8 @@ MongoDB Atlas provides several advantages for the DevFoolU project:
 1. In your cluster, click "Connect"
 2. Choose "Connect your application"
 3. Select "Python" as the driver
-4. Copy the connection string (it will look like: `mongodb+srv://<username>:<password>@<cluster>.mongodb.net/<dbname>?retryWrites=true&w=majority`)
-5. Replace `<username>`, `<password>`, and `<dbname>` with your actual values
+4. Copy the connection string from Atlas (it starts with `mongodb+srv://`)
+5. Keep credentials only in your local `.env` file; never commit the URI
 
 ### 5. Configure Environment Variables
 
@@ -51,7 +51,7 @@ MongoDB Atlas provides several advantages for the DevFoolU project:
 
 2. Edit the `.env` file and add your MongoDB connection string:
    ```
-   MONGODB_URI=mongodb+srv://yourusername:yourpassword@yourcluster.mongodb.net/devfolio_db?retryWrites=true&w=majority
+   MONGODB_URI=<paste-your-atlas-connection-uri-here>
    ```
 
 ## Importing Existing Data
