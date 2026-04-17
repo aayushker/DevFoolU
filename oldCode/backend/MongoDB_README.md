@@ -45,6 +45,7 @@ MongoDB Atlas provides several advantages for the DevFoolU project:
 ### 5. Configure Environment Variables
 
 1. Copy the `.env.example` file to `.env` in the backend directory:
+
    ```bash
    cp .env.example .env
    ```
@@ -107,11 +108,13 @@ Stores the results of similarity checks:
 You can test if the MongoDB connection is working by:
 
 1. Running the heartbeat endpoint:
+
    ```bash
    curl http://localhost:8000/api/heartbeat/
    ```
-   
+
    You should see:
+
    ```json
    {
      "status": "Backend is active",
@@ -140,4 +143,4 @@ You can test if the MongoDB connection is working by:
 
 ## Fallback Mechanism
 
-The system is designed to fall back to CSV storage if MongoDB is unavailable. This ensures the application continues to work even if there are database connection issues. 
+The system is designed to fall back to CSV storage if MongoDB is unavailable. This ensures the application continues to work even if there are database connection issues.
